@@ -1,7 +1,9 @@
 import { FaSearch } from "react-icons/fa";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Header = () => {
+	const { currentUser } = useSelector((state) => state.auth);
 	return (
 		<header className='bg-slate-200 shadow-md'>
 			<div className='flex justify-between items-center max-w-6xl mx-auto p-3'>
@@ -20,15 +22,29 @@ const Header = () => {
 					<FaSearch className='text-slate-600 cursor-pointer' />
 				</form>
 				<ul className='flex gap-6'>
-					<li className='hidden sm:inline font-bold text-slate-600 hover:text-slate-900'>
-						<Link to={"/"}>Home</Link>
-					</li>
-					<li className='hidden sm:inline font-bold text-slate-600 hover:text-slate-900'>
-						<Link to={"/about"}>About</Link>
-					</li>
-					<li className='font-bold text-slate-600 hover:text-slate-900'>
-						<Link to={"/sign-in"}>Sign In</Link>
-					</li>
+					<Link to={"/"}>
+						<li className='hidden sm:inline font-bold text-slate-600 hover:text-slate-900'>
+							Home
+						</li>
+					</Link>
+					<Link to={"/about"}>
+						<li className='hidden sm:inline font-bold text-slate-600 hover:text-slate-900'>
+							About
+						</li>
+					</Link>
+					<Link to={"/profile"}>
+						{currentUser ? (
+							<img
+								className='rounded-full w-7 h-7 object-cover'
+								src={currentUser.avatar}
+								alt={`Image User ${currentUser.name}`}
+							/>
+						) : (
+							<li className='font-bold text-slate-600 hover:text-slate-900'>
+								Sign In
+							</li>
+						)}
+					</Link>
 				</ul>
 			</div>
 		</header>
