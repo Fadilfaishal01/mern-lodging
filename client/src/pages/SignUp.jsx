@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { authStart, authFailure, authSuccess } from "../redux/user/userSlice";
 
 const SignUp = () => {
-	const [error, setError] = useState({});
-	const [loading, setLoading] = useState(false);
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+	const { loading, error } = useSelector((state) => state.auth); // state.user ini penamaan dari reducernya
 	const [formData, setFormData] = useState({
 		username: "",
 		email: "",
@@ -18,9 +21,10 @@ const SignUp = () => {
 	};
 
 	const handleSubmitSignUp = async (e) => {
+		e.preventDefault();
+		dispatch(authStart());
+
 		try {
-			e.preventDefault();
-			setLoading(true);
 			// /api ini di definisikan di vite.config.js
 			const res = await fetch(`/api/v1/auth/signUp`, {
 				method: "POST",
@@ -32,15 +36,14 @@ const SignUp = () => {
 			const data = await res.json();
 
 			if (data.success === false) {
-				setError(data.message);
-				setLoading(false);
+				dispatch(authFailure(data.message));
 				return;
 			}
 
-			setLoading(false);
+			dispatch(authSuccess(data));
+			navigate("/sign-in");
 		} catch (error) {
-			setLoading(false);
-			console.log(error);
+			dispatch(authFailure(error.message));
 		}
 	};
 
@@ -92,6 +95,7 @@ const SignUp = () => {
 					<span className='text-blue-700'>Sign In</span>
 				</Link>
 			</div>
+			{error && <p className='text-red-500 mt-5 italic'>{error}</p>}
 		</div>
 	);
 };
