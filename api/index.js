@@ -7,6 +7,7 @@ dotenv.config();
 // Router
 import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
+import listingRouter from "./routes/listing.route.js";
 
 const port = process.env.PORT || 3000;
 const clientOptions = {
@@ -31,6 +32,7 @@ app.listen(port, () => {
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/list", listingRouter);
 
 // Handle Error
 app.use((err, req, res, next) => {
