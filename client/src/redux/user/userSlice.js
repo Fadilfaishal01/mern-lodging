@@ -15,7 +15,7 @@ const authSlice = createSlice({
 			state.error = null;
 		},
 		authSuccess: (state, action) => {
-			state.currentUser = action.payload;
+			state.currentUser = action.payload.currentUser;
 			state.loading = false;
 			state.error = null;
 		},
@@ -23,9 +23,58 @@ const authSlice = createSlice({
 			state.error = action.payload;
 			state.loading = false;
 		},
+		signOutStart: (state) => {
+			state.loading = true;
+		},
+		signOutSuccess: (state) => {
+			state.loading = false;
+			state.error = null;
+			state.currentUser = null;
+		},
+		signOutFailure: (state, action) => {
+			state.loading = false;
+			state.error = action.payload;
+		},
+		updateUserStart: (state) => {
+			state.loading = true;
+		},
+		updateUserSuccess: (state, action) => {
+			state.currentUser = action.payload.currentUser;
+			state.loading = false;
+			state.error = null;
+		},
+		updateUserFailure: (state, action) => {
+			state.error = action.payload;
+			state.loading = false;
+		},
+		deleteUserStart: (state) => {
+			state.loading = true;
+		},
+		deleteUserSuccess: (state) => {
+			state.loading = false;
+			state.error = null;
+			state.currentUser = null;
+		},
+		deleteUserFailure: (state, action) => {
+			state.loading = false;
+			state.error = action.payload;
+		},
 	},
 });
 
-export const { authStart, authSuccess, authFailure } = authSlice.actions;
+export const {
+	authStart,
+	authSuccess,
+	authFailure,
+	signOutStart,
+	signOutSuccess,
+	signOutFailure,
+	updateUserStart,
+	updateUserSuccess,
+	updateUserFailure,
+	deleteUserStart,
+	deleteUserSuccess,
+	deleteUserFailure,
+} = authSlice.actions;
 
 export default authSlice.reducer;

@@ -67,6 +67,15 @@ export const signInController = async (req, res, next) => {
 	}
 };
 
+export const signOutController = async (req, res, next) => {
+	try {
+		res.clearCookie("access_token");
+		res.status(200).json("User has been logged out!");
+	} catch (error) {
+		next(error);
+	}
+};
+
 export const googleController = async (req, res, next) => {
 	const { name, email, photo } = req.body;
 
@@ -75,7 +84,9 @@ export const googleController = async (req, res, next) => {
 		if (user) {
 			const token = jwt.sign(
 				{
-					id: user._id,
+					_id: user._id,
+					username: user.username,
+					email: user.email,
 				},
 				process.env.JWT_SECRET
 			);
@@ -103,7 +114,9 @@ export const googleController = async (req, res, next) => {
 
 			const token = jwt.sign(
 				{
-					id: newUser._id,
+					_id: newUser._id,
+					username: newUser.username,
+					email: newUser.email,
 				},
 				process.env.JWT_SECRET
 			);
@@ -126,7 +139,9 @@ export const githubController = async (req, res, next) => {
 		if (user) {
 			const token = jwt.sign(
 				{
-					id: user._id,
+					_id: user._id,
+					username: user.username,
+					email: user.email,
 				},
 				process.env.JWT_SECRET
 			);
@@ -154,7 +169,9 @@ export const githubController = async (req, res, next) => {
 
 			const token = jwt.sign(
 				{
-					id: newUser._id,
+					_id: user._id,
+					username: user.username,
+					email: user.email,
 				},
 				process.env.JWT_SECRET
 			);

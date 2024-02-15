@@ -43,7 +43,11 @@ const OAuth = ({ typeOAuth }) => {
 			});
 
 			const data = await res.json();
-			dispatch(authSuccess(data));
+			dispatch(
+				authSuccess({
+					currentUser: data,
+				})
+			);
 			navigate("/");
 		} catch (error) {
 			console.log("Could not sign in with Google : ", error.message);
@@ -74,7 +78,11 @@ const OAuth = ({ typeOAuth }) => {
 			});
 
 			const data = await res.json();
-			dispatch(authSuccess(data));
+			dispatch(
+				authSuccess({
+					currentUser: data,
+				})
+			);
 			navigate("/");
 		} catch (error) {
 			console.log("Could not sign in with Github : ", error.message);

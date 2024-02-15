@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import express from "express";
+import cookieParser from "cookie-parser";
 dotenv.config();
 
 // Router
@@ -23,6 +24,7 @@ mongoose
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 app.listen(port, () => {
 	console.log(`Server running on port ${port}!`);
 });

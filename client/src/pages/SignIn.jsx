@@ -32,7 +32,12 @@ const SignIn = () => {
 				return;
 			}
 
-			dispatch(authSuccess(data));
+			dispatch(
+				authSuccess({
+					currentUser: data.data,
+					message: data.message,
+				})
+			);
 			navigate("/");
 		} catch (error) {
 			dispatch(authFailure(error.message));
