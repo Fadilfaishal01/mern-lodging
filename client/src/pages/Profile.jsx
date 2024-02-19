@@ -3,9 +3,11 @@ import {
 	FaTrashAlt,
 	FaPlusCircle,
 	FaPencilAlt,
+	FaEye,
 } from "react-icons/fa";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
 	getDownloadURL,
 	getStorage,
@@ -23,8 +25,14 @@ import {
 	signOutFailure,
 	signOutSuccess,
 } from "./../redux/user/userSlice.js";
+import {
+	getListingStart,
+	getListingSuccess,
+	getListingFailure,
+} from "./../redux/listing/listingSlice.js";
 import { useDispatch } from "react-redux";
 import { app } from "../firebase/firebase";
+import DataListingUser from "../components/DataListingUser.jsx";
 
 const Profile = () => {
 	// Firebase storage
@@ -33,6 +41,7 @@ const Profile = () => {
 	const dispatch = useDispatch();
 	const fileRef = useRef(null);
 	const { currentUser, loading, error } = useSelector((state) => state.auth);
+	const stateListing = useSelector((state) => state.listing);
 	const [file, setFile] = useState(undefined);
 	const [formData, setFormData] = useState({
 		username: currentUser.username || "",
@@ -155,10 +164,37 @@ const Profile = () => {
 		);
 	};
 
+	const handleEventShowListing = async () => {
+		try {
+			dispatch(getListingStart());
+
+			const res = await fetch(`/api/v1/user/getDataListing`, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+			const data = await res.json();
+			if (data.success === false) {
+				dispatch(getListingFailure(data.message));
+			}
+
+			dispatch(
+				getListingSuccess({
+					message: data.message,
+					data: data.data,
+				})
+			);
+		} catch (error) {
+			dispatch(getListingFailure(error.message));
+		}
+	};
+
 	useEffect(() => {
 		if (file) {
 			handleFileUpload(file);
 		}
+		handleEventShowListing();
 	}, [file]);
 
 	return (
@@ -252,6 +288,7 @@ const Profile = () => {
 					onChange={(e) => handleChangeInput(e)}
 				/>
 				<input
+					autoComplete='false'
 					type='password'
 					placeholder='password'
 					id='password'
@@ -268,10 +305,13 @@ const Profile = () => {
 						{loading ? "Loading..." : "Update"}
 					</span>
 				</button>
-				<button className='bg-green-800 text-white rounded-lg p-3 hover:opacity-85 disabled:opacity-80 flex items-center justify-center gap-2'>
+				<Link
+					to={"/create-listing"}
+					className='bg-green-800 text-white rounded-lg p-3 hover:opacity-85 disabled:opacity-80 flex items-center justify-center gap-2'
+				>
 					<FaPlusCircle />
 					<span className='font-semibold'>Create Listing</span>
-				</button>
+				</Link>
 			</form>
 			<div className='flex justify-between mt-3'>
 				<button
@@ -289,6 +329,13 @@ const Profile = () => {
 					<span className='font-semibold'>Sign Out</span>
 				</button>
 			</div>
+			<hr className='my-6' />
+			<div className='flex justify-center my-6'>
+				<p className='text-2xl font-semibold'>
+					Data Listing {currentUser.username}
+				</p>
+			</div>
+			<DataListingUser dataListing={stateListing.dataListing} />
 		</div>
 	);
 };

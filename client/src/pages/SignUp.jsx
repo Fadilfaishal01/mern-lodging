@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { authStart, authFailure, authSuccess } from "../redux/user/userSlice";
@@ -6,7 +6,7 @@ import { authStart, authFailure, authSuccess } from "../redux/user/userSlice";
 const SignUp = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const { loading, error } = useSelector((state) => state.auth); // state.user ini penamaan dari reducernya
+	const { currentUser, loading, error } = useSelector((state) => state.auth); // state.user ini penamaan dari reducernya
 	const [formData, setFormData] = useState({
 		username: "",
 		email: "",
@@ -46,6 +46,12 @@ const SignUp = () => {
 			dispatch(authFailure(error.message));
 		}
 	};
+
+	useEffect(() => {
+		if (currentUser) {
+			navigate("/");
+		}
+	}, []);
 
 	return (
 		<div className='p-3 max-w-lg mx-auto'>

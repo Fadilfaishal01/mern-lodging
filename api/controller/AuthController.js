@@ -17,7 +17,7 @@ export const signUpController = async (req, res, next) => {
 
 	try {
 		await newUser.save();
-		return res.status(200).json({
+		return res.status(201).json({
 			status: 200,
 			message: "Successfuly Sign Up User",
 			data: newUser,
