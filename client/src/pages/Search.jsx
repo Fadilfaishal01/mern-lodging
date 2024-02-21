@@ -116,7 +116,7 @@ const Search = () => {
 
 		const fetchListings = async () => {
 			setLoading(true);
-
+			setShowMore(false);
 			try {
 				const searchQuery = urlParams.toString();
 				const res = await fetch(
@@ -130,6 +130,8 @@ const Search = () => {
 
 				if (data.data.length > 5) {
 					setShowMore(true);
+				} else {
+					setShowMore(false);
 				}
 
 				setLoading(false);
