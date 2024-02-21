@@ -41,7 +41,7 @@ const Profile = () => {
 	const dispatch = useDispatch();
 	const fileRef = useRef(null);
 	const { currentUser, loading, error } = useSelector((state) => state.auth);
-	const stateListing = useSelector((state) => state.listing);
+	const { AllDataListing } = useSelector((state) => state.listing);
 	const [file, setFile] = useState(undefined);
 	const [formData, setFormData] = useState({
 		username: currentUser.username || "",
@@ -168,7 +168,7 @@ const Profile = () => {
 		try {
 			dispatch(getListingStart());
 
-			const res = await fetch(`/api/v1/user/getDataListing`, {
+			const res = await fetch(`/api/v1/listing`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
@@ -335,7 +335,7 @@ const Profile = () => {
 					Data Listing {currentUser.username}
 				</p>
 			</div>
-			<DataListingUser dataListing={stateListing.dataListing} />
+			<DataListingUser dataListing={AllDataListing} />
 		</div>
 	);
 };

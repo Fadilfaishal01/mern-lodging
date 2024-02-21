@@ -3,7 +3,6 @@ import {
 	FaBath,
 	FaBed,
 	FaChair,
-	FaMapMarkedAlt,
 	FaMapMarkerAlt,
 	FaParking,
 } from "react-icons/fa";
@@ -23,7 +22,7 @@ import Contact from "../components/Contact";
 const Listing = () => {
 	SwiperCore.use([Navigation]);
 	const dispatch = useDispatch();
-	const { dataListingById, error, message, loading } = useSelector(
+	const { FirstDataListing, error, message, loading } = useSelector(
 		(state) => state.listing
 	);
 	const { currentUser } = useSelector((state) => state.auth);
@@ -72,13 +71,13 @@ const Listing = () => {
 					{error}
 				</p>
 			)}
-			{dataListingById && !loading && !error && (
+			{FirstDataListing && !loading && !error && (
 				<div>
 					<Swiper navigation>
-						{dataListingById.imageUrls.map((url, index) => (
+						{FirstDataListing.imageUrls.map((url, index) => (
 							<SwiperSlide key={url + index}>
 								<div
-									className='h-[350px]'
+									className='h-[450px]'
 									style={{
 										background: `url(${url}) center no-repeat`,
 										backgroundSize: "cover",
@@ -90,27 +89,27 @@ const Listing = () => {
 
 					<div className='flex flex-col max-w-4xl mx-auto p-3 my-7 gap-4'>
 						<p className='text-2xl font-semibold'>
-							{dataListingById.name} - ${" "}
-							{dataListingById.offer
-								? dataListingById.discountPrice.toLocaleString("en-US")
-								: dataListingById.regularPrice.toLocaleString("en-US")}
-							{dataListingById.type === "rent" && " / month"}
+							{FirstDataListing.name} - ${" "}
+							{FirstDataListing.offer
+								? FirstDataListing.discountPrice.toLocaleString("en-US")
+								: FirstDataListing.regularPrice.toLocaleString("en-US")}
+							{FirstDataListing.type === "rent" && " / month"}
 						</p>
-						<p className='flex items-center mt-6 gap-2 text-slate-600  text-sm'>
+						<p className='flex items-center mt-6 text-slate-600  text-sm'>
 							<FaMapMarkerAlt className='text-green-700' />
-							{dataListingById.address}
+							{FirstDataListing.address}
 						</p>
 						<div className='flex gap-4'>
 							<p className='bg-red-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>
-								{dataListingById.type === "rent"
+								{FirstDataListing.type === "rent"
 									? "For Rent"
 									: "For Sale"}
 							</p>
-							{dataListingById.offer && (
+							{FirstDataListing.offer && (
 								<p className='bg-green-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>
 									$
-									{+dataListingById.regularPrice -
-										+dataListingById.discountPrice}{" "}
+									{+FirstDataListing.regularPrice -
+										+FirstDataListing.discountPrice}{" "}
 									OFF
 								</p>
 							)}
@@ -119,36 +118,36 @@ const Listing = () => {
 							<span className='font-semibold text-black'>
 								Description -{" "}
 							</span>
-							{dataListingById.description}
+							{FirstDataListing.description}
 						</p>
 						<ul className='text-green-900 font-semibold text-sm flex flex-wrap items-center gap-4 sm:gap-6'>
 							<li className='flex items-center gap-1 whitespace-nowrap '>
 								<FaBed className='text-lg' />
-								{dataListingById.bedrooms > 1
-									? `${dataListingById.bedrooms} beds `
-									: `${dataListingById.bedrooms} bed `}
+								{FirstDataListing.bedrooms > 1
+									? `${FirstDataListing.bedrooms} beds `
+									: `${FirstDataListing.bedrooms} bed `}
 							</li>
 							<li className='flex items-center gap-1 whitespace-nowrap '>
 								<FaBath className='text-lg' />
-								{dataListingById.bathrooms > 1
-									? `${dataListingById.bathrooms} baths `
-									: `${dataListingById.bathrooms} bath `}
+								{FirstDataListing.bathrooms > 1
+									? `${FirstDataListing.bathrooms} baths `
+									: `${FirstDataListing.bathrooms} bath `}
 							</li>
 							<li className='flex items-center gap-1 whitespace-nowrap '>
 								<FaParking className='text-lg' />
-								{dataListingById.parking
+								{FirstDataListing.parking
 									? "Parking Spot"
 									: "No Parking"}
 							</li>
 							<li className='flex items-center gap-1 whitespace-nowrap '>
 								<FaChair className='text-lg' />
-								{dataListingById.furnished
+								{FirstDataListing.furnished
 									? "Furnished"
 									: "Unfurnished"}
 							</li>
 						</ul>
 						{currentUser &&
-							dataListingById.userRef !== currentUser._id &&
+							FirstDataListing.userRef !== currentUser._id &&
 							!contact && (
 								<button
 									onClick={() => setContact(true)}
@@ -157,7 +156,7 @@ const Listing = () => {
 									Contact Landlord
 								</button>
 							)}
-						{contact && <Contact listing={dataListingById} />}
+						{contact && <Contact listing={FirstDataListing} />}
 					</div>
 				</div>
 			)}

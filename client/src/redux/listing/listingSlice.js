@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-	dataListing: [],
-	dataListingById: null,
+	AllDataListing: null,
+	FirstDataListing: null,
 	message: null,
 	error: null,
 	loading: false,
@@ -21,7 +21,7 @@ const listingSlice = createSlice({
 			state.loading = false;
 			state.error = null;
 			state.message = action.payload.message;
-			state.dataListing = action.payload.data;
+			state.AllDataListing = action.payload.data;
 		},
 		getListingFailure: (state, action) => {
 			state.loading = false;
@@ -37,7 +37,7 @@ const listingSlice = createSlice({
 			state.loading = false;
 			state.error = null;
 			state.message = action.payload.message;
-			state.dataListingById = action.payload.data;
+			state.FirstDataListing = action.payload.data;
 		},
 		getListingFirstFailure: (state, action) => {
 			state.loading = false;
@@ -53,7 +53,7 @@ const listingSlice = createSlice({
 			state.loading = false;
 			state.error = null;
 			state.message = action.payload.message;
-			state.dataListing = action.payload.data;
+			state.AllDataListing = action.payload.data;
 		},
 		deleteListingFailure: (state, action) => {
 			state.loading = false;

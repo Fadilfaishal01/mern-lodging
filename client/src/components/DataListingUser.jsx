@@ -10,7 +10,7 @@ import {
 const DataListingUser = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { dataListing, loading } = useSelector((state) => state.listing);
+	const { AllDataListing, loading } = useSelector((state) => state.listing);
 
 	const handleEventDeleteListing = async (id) => {
 		try {
@@ -42,7 +42,7 @@ const DataListingUser = () => {
 		return navigate(`/update-listing/${id}`);
 	};
 
-	return dataListing.map((listing, kData) => (
+	return AllDataListing.map((listing, kData) => (
 		<div
 			key={listing._id + kData}
 			className='border rounded-lg gap-4 p-3 flex justify-between items-center'

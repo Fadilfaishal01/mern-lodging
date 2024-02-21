@@ -1,9 +1,8 @@
 import bcryptjs from "bcryptjs";
 import { errorHandle } from "../utils/errorHandle.js";
 import User from "./../model/user.model.js";
-import Listing from "./../model/listing.model.js";
 
-export const getAllData = async (req, res) => {
+export const getAllUser = async (req, res) => {
 	try {
 		return res.status(200).json({
 			status: 200,
@@ -15,6 +14,24 @@ export const getAllData = async (req, res) => {
 			status: 500,
 			message: error.message,
 		});
+	}
+};
+
+export const getUser = async (req, res, next) => {
+	try {
+		const user = await User.findById(req.params.id);
+
+		if (!user) return next(errorHandle(404, "User not found"));
+
+		const { password: pass, ...rest } = user._doc;
+
+		res.status(200).json({
+			status: 200,
+			message: "Successfully Get User",
+			data: rest,
+		});
+	} catch (error) {
+		next(error);
 	}
 };
 
@@ -78,21 +95,5 @@ export const deleteUser = async (req, res, next) => {
 			status: 500,
 			message: error.message,
 		});
-	}
-};
-
-export const getDataListing = async (req, res, next) => {
-	try {
-		const listings = await Listing.find({
-			userRef: req.user._id,
-		});
-
-		res.status(200).json({
-			status: 200,
-			message: "Successfuly Get All Data Listing",
-			data: listings,
-		});
-	} catch (error) {
-		next(error.message);
 	}
 };
