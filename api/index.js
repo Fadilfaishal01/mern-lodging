@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import express from "express";
 import cookieParser from "cookie-parser";
+import path from "path";
 dotenv.config();
 
 // Router
@@ -23,6 +24,8 @@ mongoose
 		console.log("Can't Connect to Database Mongoose! : " + err.message);
 	});
 
+const __dirname = path.resolve();
+
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
@@ -33,6 +36,11 @@ app.listen(port, () => {
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/listing", listingRouter);
+
+app.use(express.static(path.join(__dirname, "/client/dist")));
+app.get("*", (req, res) => {
+	res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
 
 // Handle Error
 app.use((err, req, res, next) => {

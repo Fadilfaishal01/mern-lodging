@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 const ListingItem = ({ listing }) => {
 	return (
-		<div className='bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[330px]'>
+		<div className='bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[300px]'>
 			<Link to={`/listing/${listing._id}`}>
 				<img
 					src={
@@ -18,7 +18,7 @@ const ListingItem = ({ listing }) => {
 						"https://www.google.com/url?sa=i&url=https%3A%2F%2Funsplash.com%2Fs%2Fphotos%2Foffice-building&psig=AOvVaw30qxcp1GfjtjB7IzqiGFXr&ust=1708585932256000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCLimu97wu4QDFQAAAAAdAAAAABAE"
 					}
 					alt='Listing Cover'
-					className='h-[270px] sm:h-[270px] w-full object-cover hover:scale-105 transition-scale-duration-2000'
+					className='h-[250px] sm:h-[250px] w-full object-cover hover:scale-105 transition-scale-duration-2000'
 				/>
 				<div className='p-3 flex flex-col gap-2 w-full'>
 					<p className='truncate text-lg font-semibold text-slate-700'>
